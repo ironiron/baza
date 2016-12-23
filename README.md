@@ -1,2 +1,3 @@
 # baza
-simple wms program with polish gui
+Simple wms program with polish gui.
+Made in Qt
