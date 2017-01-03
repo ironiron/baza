@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>anuluj</string>
+    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QPushButton" name="zastosuj">
@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>zastosuj</string>
+    <string>Accept</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox">
@@ -59,7 +59,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>całkowite usunięcie</string>
+    <string>complete removal</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">

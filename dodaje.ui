@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>cancel</string>
+    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QPushButton" name="zastosuj">
@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Dodaj</string>
+    <string>Add</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">

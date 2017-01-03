@@ -4,17 +4,20 @@
 #include <QtSql>
 #include <QApplication>
 #include <QKeyEvent>
+#include <QShortcut>
 
 nowyprodukt::nowyprodukt( QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nowyprodukt)
 {
     ui->setupUi(this);
-    setWindowTitle(tr("Dodawanie nowego produktu"));
+    setWindowTitle(tr("Adding new product"));
     QValidator *validator = new QIntValidator(1, 2147483646, this);
     ui->i->setValidator(validator);
     ui->p->setValidator(validator);
     setWindowFlags(Qt::WindowTitleHint);
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Return),this);//Enter button
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_d_clicked()));
 }
 
 nowyprodukt::~nowyprodukt()

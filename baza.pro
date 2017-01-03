@@ -14,7 +14,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = baza
 TEMPLATE = app
 
-
+TRANSLATIONS = baza_pl.ts \
+               baza_en.ts \
+               baza_fr.ts \
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -22,7 +24,8 @@ SOURCES += main.cpp\
     connectDB.cpp \
     nowyprodukt.cpp \
     dodaje.cpp \
-    odejmij.cpp
+    odejmij.cpp \
+    setlanguage.cpp
 
 HEADERS  += mainwindow.h \
     magazyn.h \
@@ -30,12 +33,14 @@ HEADERS  += mainwindow.h \
     nowyprodukt.h \
     dodaje.h \
     odejmij.h \
-    version.h
+    version.h \
+    setlanguage.h
 
 FORMS    += mainwindow.ui \
     nowyprodukt.ui \
     dodaje.ui \
-    odejmij.ui
+    odejmij.ui \
+    setlanguage.ui
 
 DISTFILES += \
     myapp.rc

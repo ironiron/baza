@@ -8,6 +8,7 @@
 
 class connectDB : public QSqlDatabase
 {
+
      QSqlQuery query;
      unsigned int id=1;
 

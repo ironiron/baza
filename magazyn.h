@@ -25,6 +25,9 @@ public slots:
     void min();
     void add();
     void min_more();
+    void column_change();
+    void search();
+    void CancelSearch();
 
 private:
     QPushButton *submitButton;
@@ -33,6 +36,10 @@ private:
     QDialogButtonBox *buttonBox;
     QSqlTableModel *model;
     void upd();
+
+ protected slots:
+
+  void slotLanguageChanged();
 
 };
 

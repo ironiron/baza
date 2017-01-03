@@ -13,8 +13,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    a.setApplicationName("version-cmd");
-    a.setApplicationVersion("0.9");
+
+    QTranslator translator;
+    QSettings settings("MySoft", "baza");
+    translator.load(QString("baza_") + settings.value("language","pl").toString(), a.applicationDirPath());
+    a.installTranslator(&translator);
 
     magazyn magazyn("magazyn");
     magazyn.show();

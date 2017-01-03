@@ -16,19 +16,17 @@ connectDB::connectDB()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("path");
-    //db.setDatabaseName(":memory:");
     if (!db.open()) {
         QMessageBox::critical(0, qApp->tr("Cannot open database"),
-            qApp->tr("Unable to establish a database connection.\n"
-                     "This example needs SQLite support. Please read "
-                     "the Qt SQL driver documentation for information how "
-                     "to build it.\n\n"
+            qApp->tr("Unable to establish a database connection.\n\n"
                      "Click Cancel to exit."), QMessageBox::Cancel);
         exit(1);
     }
 QSqlQuery dada;
 query=dada;
 
+//columuns:
+//id PLU quantiny name group1 group2 place state
     query.exec("create table magazyn ("
                "id int primary key,"
                "PLU int, "
@@ -107,9 +105,13 @@ void connectDB::manipuluj(int id,int dodaj,int odbierz,QString data)
     else
     {
         if (odbierz>ka) {
-            QMessageBox::critical(0, qApp->tr("Error"),
-                qApp->tr("Za mało produktu.\n"
-                         "Spróbuj z mniejszą ilością \n"), QMessageBox::Cancel);
+           // QMessageBox msgBox;
+
+           // msgBox.setText(QObject::tr("Too little \n Try with fewer \n"));
+            //msgBox.exec();
+            QMessageBox::critical(0, qApp->QObject::tr("Error"),
+                qApp->QObject::tr("Too little \n"
+                         "Try with fewer \n"), QMessageBox::Cancel);
             return;
         }
         ka=ka-odbierz;
