@@ -12,3 +12,4 @@ C-colection
 L-language change
 
 Author: Rafał Mazurkiewicz
+Contact: klala3664@gmail.com
