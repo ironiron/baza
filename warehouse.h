@@ -1,5 +1,5 @@
-#ifndef MAGAZYN_H
-#define MAGAZYN_H
+#ifndef warehouse_H
+#define warehouse_H
 
 #include <QObject>
 #include <QWidget>
@@ -12,15 +12,15 @@ class QPushButton;
 class QSqlTableModel;
 QT_END_NAMESPACE
 
-class magazyn : public QWidget
+class warehouse : public QWidget
 {
     Q_OBJECT
 public:
-    explicit magazyn(const QString &tableName, QWidget *parent = 0);
+    explicit warehouse(const QString &tableName, QWidget *parent = 0);
 
 
 public slots:
-    void dodajprodukt();
+    void new_product();
     void recordSelected();
     void min();
     void add();
@@ -37,10 +37,11 @@ private:
     QSqlTableModel *model;
     void upd();
 
+
  protected slots:
 
   void slotLanguageChanged();
 
 };
 
-#endif // MAGAZYN_H
+#endif // warehouse_H

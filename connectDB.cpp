@@ -4,12 +4,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QApplication>
-#include <QtDebug>
-#include <qstandardpaths.h>
-#include <QtWidgets>
-#include <qobject.h>
-#include "magazyn.h"
-#include <QSettings>
+
+
 
 
 connectDB::connectDB()
@@ -22,11 +18,10 @@ connectDB::connectDB()
                      "Click Cancel to exit."), QMessageBox::Cancel);
         exit(1);
     }
+
 QSqlQuery dada;
 query=dada;
 
-//columuns:
-//id PLU quantiny name group1 group2 place state
     query.exec("create table magazyn ("
                "id int primary key,"
                "PLU int, "
@@ -45,93 +40,91 @@ query=dada;
 
 }
 
-void connectDB::dodaj_produkt(int id,QString PLU, QString quantiny, QString nazwa, QString grupa1,QString grupa2
-                   , QString miejsce, QString stan,QString datein1, QString datein2,
-                   QString datein3, QString dateout1,
-              QString dateout2, QString dateout3){
+void connectDB::add_product(int id,QString PLU, QString quantiny, QString name, QString group1,
+                                QString group2, QString place, QString condition,QString datein1,
+                              QString datein2, QString datein3, QString dateout1,
+                             QString dateout2, QString dateout3){
 
     QString i = QString::number(id);
-    query.exec("insert into magazyn values('"+i+"','"+PLU+"', '"+quantiny+"', '"+nazwa+"', "
-             "'"+grupa1+"', '"+grupa2+"', '"+miejsce+"', '"+stan+"', '"+datein1+"', '"+datein2+"', "
+    query.exec("insert into magazyn values('"+i+"','"+PLU+"', '"+quantiny+"', '"+name+"', "
+             "'"+group1+"', '"+group2+"', '"+place+"', '"+condition+"', '"+datein1+"', '"+datein2+"', "
             "'"+datein3+"', '"+dateout1+"', '"+dateout2+"', '"+dateout3+"')");
 
 
 }
 
-void connectDB::manipuluj(int id,int dodaj,int odbierz,QString data)
+void connectDB::manipulate(int id,int add,int collect,QString date)
 {
     int ka;
-    QString data1,data2,data3;
-    if(dodaj&&odbierz)
+    QString date1,date2,date3;
+    if(add&&collect)
     {
         query.prepare("delete from magazyn where id=:ida;");
         query.bindValue(":ida",id);
         query.exec();
         return;
     }
-    query.prepare("select quantiny from magazyn where id=:lala"
+    query.prepare("select quantiny from magazyn where id=:ida"
                   "");
-    query.bindValue(":lala",id);
+    query.bindValue(":ida",id);
     query.exec();
     while (query.next()) ka=query.value(0).toInt();
-    if(dodaj)
+    if(add)
     {
-        ka=ka+dodaj;
+        ka=ka+add;
         query.prepare("select datein1, datein2, datein3 from magazyn where id=:ida"
                       "");
         query.bindValue(":ida",id);
         query.exec();
         while (query.next())
         {
-            data1=query.value(0).toString();
-            data2=query.value(1).toString();
-            data3=query.value(2).toString();
+            date1=query.value(0).toString();
+            date2=query.value(1).toString();
+            date3=query.value(2).toString();
         }
-        data3=data2;
-        data2=data1;
-        data1=data;
-        QString kaka = QString::number(ka);
-        QString ida = QString::number(id);
+        date3=date2;
+        date2=date1;
+        date1=date;
         query.prepare("update magazyn "
                       "set quantiny=:q,datein1=:d1, datein2=:d2, datein3=:d3 "
                       "where id=:ida ;");
-        query.bindValue(":q",kaka);
-        query.bindValue(":d1",data1);
-        query.bindValue(":d2",data2);
-        query.bindValue(":d3",data3);
-        query.bindValue(":ida",ida);
+        query.bindValue(":q",ka);
+        query.bindValue(":d1",date1);
+        query.bindValue(":d2",date2);
+        query.bindValue(":d3",date3);
+        query.bindValue(":ida",id);
         query.exec();
     }
     else
     {
-        if (odbierz>ka) {
+        if (collect>ka) {
 
             QMessageBox::critical(0, qApp->QObject::tr("Error"),
                 qApp->QObject::tr("Too little \n"
                          "Try with fewer \n"), QMessageBox::Cancel);
             return;
         }
-        ka=ka-odbierz;
+        ka=ka-collect;
         query.prepare("select dateout1, dateout2, dateout3 from magazyn where id=:ida"
                       "");
         query.bindValue(":ida",id);
         query.exec();
         while (query.next())
         {
-            data1=query.value(0).toString();
-            data2=query.value(1).toString();
-            data3=query.value(2).toString();
+            date1=query.value(0).toString();
+            date2=query.value(1).toString();
+            date3=query.value(2).toString();
         }
-        data3=data2;
-        data2=data1;
-        data1=data;
+        date3=date2;
+        date2=date1;
+        date1=date;
         query.prepare("update magazyn "
                       "set quantiny=:q,dateout1=:d1, dateout2=:d2, dateout3=:d3 "
                       "where id=:ida;");
         query.bindValue(":q",ka);
-        query.bindValue(":d1",data1);
-        query.bindValue(":d2",data2);
-        query.bindValue(":d3",data3);
+        query.bindValue(":d1",date1);
+        query.bindValue(":d2",date2);
+        query.bindValue(":d3",date3);
         query.bindValue(":ida",id);
         query.exec();
     }

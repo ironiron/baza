@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>odejmij</class>
- <widget class="QDialog" name="odejmij">
+ <class>collecting</class>
+ <widget class="QDialog" name="collecting">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="anuluj">
+  <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -36,7 +36,7 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="zastosuj">
+  <widget class="QPushButton" name="accept">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -79,8 +79,8 @@
  <tabstops>
   <tabstop>lineEdit</tabstop>
   <tabstop>checkBox</tabstop>
-  <tabstop>zastosuj</tabstop>
-  <tabstop>anuluj</tabstop>
+  <tabstop>accept</tabstop>
+  <tabstop>cancel</tabstop>
  </tabstops>
  <resources/>
  <connections/>

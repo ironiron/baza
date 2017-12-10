@@ -17,7 +17,7 @@ public:
     QString cl;
 
 private slots:
-    void on_pushButton_clicked();
+    void on_ok_clicked();
     void keyPressEvent(QKeyEvent *e);
 
 private:

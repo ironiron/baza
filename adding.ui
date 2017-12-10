@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dodaje</class>
- <widget class="QDialog" name="dodaje">
+ <class>adding</class>
+ <widget class="QDialog" name="adding">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,7 +26,7 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="anuluj">
+  <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -39,7 +39,7 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="zastosuj">
+  <widget class="QPushButton" name="add">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -65,8 +65,8 @@
  </widget>
  <tabstops>
   <tabstop>lineEdit</tabstop>
-  <tabstop>zastosuj</tabstop>
-  <tabstop>anuluj</tabstop>
+  <tabstop>add</tabstop>
+  <tabstop>cancel</tabstop>
  </tabstops>
  <resources/>
  <connections/>

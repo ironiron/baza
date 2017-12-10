@@ -14,8 +14,10 @@ SetLanguage::SetLanguage(QWidget *parent) :
     lang << "english" << "french" << "polish";
     ui->comboBox->addItems(lang);
     setWindowFlags(Qt::WindowTitleHint);
-    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Return),this);//Enter button
-    connect(shortcut, SIGNAL(activated()), this, SLOT(on_pushButton_clicked()));
+    QShortcut *shortcut1 = new QShortcut(QKeySequence(Qt::Key_Return),this);//Enter button
+    QShortcut *shortcut2 = new QShortcut(QKeySequence(Qt::Key_Enter),this);//Enter button
+    connect(shortcut1, SIGNAL(activated()), this, SLOT(on_ok_clicked()));
+    connect(shortcut2, SIGNAL(activated()), this, SLOT(on_ok_clicked()));
 }
 
 SetLanguage::~SetLanguage()
@@ -23,7 +25,7 @@ SetLanguage::~SetLanguage()
     delete ui;
 }
 
-void SetLanguage::on_pushButton_clicked()
+void SetLanguage::on_ok_clicked()
 {
     if(ui->comboBox->currentText()=="english")
     cl="en";

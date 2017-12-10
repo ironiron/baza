@@ -1,10 +1,7 @@
 #ifndef CONNECTDB_H
 #define CONNECTDB_H
 #include <QMessageBox>
-#include <QSqlDatabase>
-#include <QSqlError>
 #include <QSqlQuery>
-#include <QSettings>
 
 class connectDB : public QSqlDatabase
 {
@@ -14,11 +11,11 @@ class connectDB : public QSqlDatabase
 
 public:
      connectDB();
-     void dodaj_produkt(int id, QString PLU, QString quantiny, QString nazwa, QString grupa1, QString grupa2
-                 , QString miejsce, QString stan, QString datein1, QString datein2,
+     void add_product(int id, QString PLU, QString quantiny, QString name, QString group1, QString group2
+                 , QString place, QString condition, QString datein1, QString datein2,
                  QString datein3, QString dateout1,
             QString dateout2, QString dateout3);
-     void manipuluj(int id, int dodaj, int odbierz, QString data);
+     void manipulate(int id, int add, int collect, QString date);
      bool ok;
 
 

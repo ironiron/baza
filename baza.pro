@@ -19,28 +19,27 @@ TRANSLATIONS = baza_pl.ts \
                baza_fr.ts \
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    magazyn.cpp \
     connectDB.cpp \
-    nowyprodukt.cpp \
-    dodaje.cpp \
-    odejmij.cpp \
-    setlanguage.cpp
+    setlanguage.cpp \
+    adding.cpp \
+    collecting.cpp \
+    newproduct.cpp \
+    warehouse.cpp
 
-HEADERS  += mainwindow.h \
-    magazyn.h \
+HEADERS  += \
     connectDB.h \
-    nowyprodukt.h \
-    dodaje.h \
-    odejmij.h \
     version.h \
-    setlanguage.h
+    setlanguage.h \
+    adding.h \
+    collecting.h \
+    newproduct.h \
+    warehouse.h
 
-FORMS    += mainwindow.ui \
-    nowyprodukt.ui \
-    dodaje.ui \
-    odejmij.ui \
-    setlanguage.ui
+FORMS    +=  \
+    setlanguage.ui \
+    adding.ui \
+    collecting.ui \
+    newproduct.ui
 
 DISTFILES += \
     myapp.rc

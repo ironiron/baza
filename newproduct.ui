@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>nowyprodukt</class>
- <widget class="QDialog" name="nowyprodukt">
+ <class>newproduct</class>
+ <widget class="QDialog" name="newproduct">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -165,7 +165,7 @@
     </font>
    </property>
    <property name="text">
-    <string>State:</string>
+    <string>Condition:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="p">
@@ -214,7 +214,7 @@
     <string>Product name:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="d">
+  <widget class="QPushButton" name="add">
    <property name="geometry">
     <rect>
      <x>270</x>
@@ -232,7 +232,7 @@
     <string>Add</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="a">
+  <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -269,8 +269,8 @@
   <tabstop>s</tabstop>
   <tabstop>i</tabstop>
   <tabstop>p</tabstop>
-  <tabstop>d</tabstop>
-  <tabstop>a</tabstop>
+  <tabstop>add</tabstop>
+  <tabstop>cancel</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -1,13 +1,12 @@
-#include "magazyn.h"
+#include "warehouse.h"
 #include "connectDB.h"
-#include "nowyprodukt.h"
-#include "dodaje.h"
-#include "odejmij.h"
+#include "newproduct.h"
+#include "adding.h"
+#include "collecting.h"
 #include "setlanguage.h"
 #include <QApplication>
 #include <qobject.h>
 #include <QItemSelectionModel>
-#include <QtDebug>
 #include <QSettings>
 #include <QShortcut>
 #include <QtWidgets>
@@ -20,8 +19,8 @@ QTranslator translator;
 QLabel *label;
 QTableView *view;
 QModelIndex index;
-QLabel *datyin;
-QLabel *datyout;
+QLabel *dates_in;
+QLabel *dates_out;
 QItemSelectionModel *selected;
 QModelIndex *m_in;
 QLineEdit *searchWord;
@@ -33,7 +32,7 @@ int k=0;
 int id;
 char lan=0;
 
-magazyn::magazyn(const QString &tableName, QWidget *parent) : QWidget(parent)
+warehouse::warehouse(const QString &tableName, QWidget *parent) : QWidget(parent)
 {
     model = new QSqlTableModel(this);
     model->setTable(tableName);
@@ -44,7 +43,7 @@ magazyn::magazyn(const QString &tableName, QWidget *parent) : QWidget(parent)
     model->setHeaderData(4, Qt::Horizontal, tr("group1"));
     model->setHeaderData(5, Qt::Horizontal, tr("group2"));
     model->setHeaderData(6, Qt::Horizontal, tr("place"));
-    model->setHeaderData(7, Qt::Horizontal, tr("state"));
+    model->setHeaderData(7, Qt::Horizontal, tr("condition"));
     view = new QTableView;
     view->setModel(model);
     view->hideColumn(0);
@@ -71,37 +70,39 @@ magazyn::magazyn(const QString &tableName, QWidget *parent) : QWidget(parent)
     QHeaderView *headerview = view->horizontalHeader();
     QItemSelectionModel *select = view->selectionModel();
 
-    QPushButton *dodaj = new QPushButton(tr("  add new  "), this);
-    QPushButton *dodaj_kolejne = new QPushButton(tr("  add  "), this);
-    QPushButton *minus = new QPushButton(tr("  minus  "), this);
-    QPushButton *odbierz = new QPushButton(tr("  collect  "), this);
+    QPushButton *add_new = new QPushButton(tr("  add new  "), this);
+    QPushButton *add = new QPushButton(tr("  add  "), this);
+    QPushButton *minus = new QPushButton(tr("  minus  "), this);//remove one piece of item only
+    QPushButton *collect = new QPushButton(tr("  collect  "), this);//remove more
     QPushButton *searchButton = new QPushButton(tr("  search  "), this);
 
     buttonBox = new QDialogButtonBox(Qt::Horizontal);
-    buttonBox->addButton(dodaj, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(dodaj_kolejne, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(add_new, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(add, QDialogButtonBox::ActionRole);
     buttonBox->addButton(minus, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(odbierz, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(collect, QDialogButtonBox::ActionRole);
 
     QShortcut *shortcutN = new QShortcut(QKeySequence("N"),this);
     QShortcut *shortcutA = new QShortcut(QKeySequence("A"),this);
     QShortcut *shortcutC = new QShortcut(QKeySequence("C"),this);
     QShortcut *shortcutM = new QShortcut(QKeySequence("M"),this);
-    QShortcut *shortcutEnter = new QShortcut(QKeySequence(Qt::Key_Return),this);//Enter button
+    QShortcut *shortcutReturn = new QShortcut(QKeySequence(Qt::Key_Return),this);//Enter button
+    QShortcut *shortcutEnter = new QShortcut(QKeySequence(Qt::Key_Enter),this);
     QShortcut *shortcutEsc = new QShortcut(QKeySequence(Qt::Key_Escape),this);
     QShortcut *shortcutL = new QShortcut(QKeySequence(Qt::Key_L),this);
-    connect(shortcutN, SIGNAL(activated()), this, SLOT(dodajprodukt()));
+    connect(shortcutN, SIGNAL(activated()), this, SLOT(new_product()));
     connect(shortcutA, SIGNAL(activated()), this, SLOT(add()));
     connect(shortcutC, SIGNAL(activated()), this, SLOT(min_more()));
     connect(shortcutM, SIGNAL(activated()), this, SLOT(min()));
     connect(shortcutEnter, SIGNAL(activated()), this, SLOT(search()));
+    connect(shortcutReturn, SIGNAL(activated()), this, SLOT(search()));
     connect(shortcutEsc, SIGNAL(activated()), this, SLOT(CancelSearch()));
     connect(shortcutL, SIGNAL(activated()), this, SLOT(slotLanguageChanged()));
 
-    connect(dodaj, SIGNAL(clicked()), this, SLOT(dodajprodukt()));
-    connect(dodaj_kolejne, SIGNAL(clicked()), this, SLOT(add()));
+    connect(add_new, SIGNAL(clicked()), this, SLOT(new_product()));
+    connect(add, SIGNAL(clicked()), this, SLOT(add()));
     connect(minus, SIGNAL(clicked()), this, SLOT(min()));
-    connect(odbierz, SIGNAL(clicked()), this, SLOT(min_more()));
+    connect(collect, SIGNAL(clicked()), this, SLOT(min_more()));
     connect(searchButton, SIGNAL(clicked()), this, SLOT(search()));
     connect(view, SIGNAL(clicked(const QModelIndex&)), this, SLOT(recordSelected()));
     connect(headerview, SIGNAL(sectionResized(int,int,int)),this, SLOT(column_change()));
@@ -114,19 +115,20 @@ magazyn::magazyn(const QString &tableName, QWidget *parent) : QWidget(parent)
     top->addWidget(searchWord);
     top->addWidget(searchButton);
 
-    QHBoxLayout *daty= new QHBoxLayout;
-    datyin = new QLabel;
-    datyout = new QLabel;
-    daty->addWidget(datyin);
-    daty->addWidget(datyout);
+    QHBoxLayout *dates= new QHBoxLayout;
+    dates_in = new QLabel;
+    dates_out = new QLabel;
+    dates->addWidget(dates_in);
+    dates->addWidget(dates_out);
 
     label= new QLabel;
     label->setText(" ");
+    label->setStyleSheet("QLabel { color : red; }");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(top);
     mainLayout->addWidget(view);
-    mainLayout->addLayout(daty);
+    mainLayout->addLayout(dates);
     mainLayout->addWidget(label);
     setLayout(mainLayout);
     showMaximized();
@@ -137,7 +139,7 @@ magazyn::magazyn(const QString &tableName, QWidget *parent) : QWidget(parent)
     setWindowTitle(tr("warehouse"));
 }
 
-void magazyn::recordSelected()
+void warehouse::recordSelected()
 {
    index = view->currentIndex();
    QSqlRecord record;
@@ -152,11 +154,11 @@ void magazyn::recordSelected()
    d4=view->model()->data(view->model()->index(k,11)).toString();
    d5=view->model()->data(view->model()->index(k,12)).toString();
    d6=view->model()->data(view->model()->index(k,13)).toString();
-   datyin->setText(tr("oncoming")+" \n"+d1+"\n"+d2+"\n"+d3);
-   datyout->setText(tr("collection")+" \n"+d4+"\n"+d5+"\n"+d6);
+   dates_in->setText(tr("added:")+" \n"+d1+"\n"+d2+"\n"+d3);
+   dates_out->setText(tr("collected:")+" \n"+d4+"\n"+d5+"\n"+d6);
 }
 
-void magazyn::column_change()
+void warehouse::column_change()
 {
     settings.setValue("view/c1",view->columnWidth(1));
     settings.setValue("view/c2",view->columnWidth(2));
@@ -167,14 +169,13 @@ void magazyn::column_change()
     settings.setValue("view/c7",view->columnWidth(7));
 }
 
-void magazyn::dodajprodukt()
+void warehouse::new_product()
 {
-    nowyprodukt *nw;
-    nw = new nowyprodukt;
+    newproduct *nw;
+    nw = new newproduct;
     nw->exec();
     if(nw->accepted)
     {
-        //qDebug() <<"lala:" << settings.value("id").toInt();
         id = settings.value("id",48).toInt();
         id++;
         settings.setValue("id",id);
@@ -182,8 +183,8 @@ void magazyn::dodajprodukt()
 
         nw->datein1=QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy");
 
-        CDB.dodaj_produkt(id,nw->PLU,nw->quantiny,nw->nazwa,nw->grupa1,
-                          nw->grupa2,nw->miejsce,nw->stan,nw->datein1,
+        CDB.add_product(id,nw->PLU,nw->quantiny,nw->name,nw->group1,
+                          nw->group2,nw->place,nw->condition,nw->datein1,
                           nw->datein2,nw->datein3,nw->dateout1,
                           nw->dateout2,nw->dateout3);
     upd();
@@ -191,43 +192,43 @@ void magazyn::dodajprodukt()
     }
 }
 
-void magazyn::min()
+void warehouse::min()
 {
-    CDB.manipuluj(inr,0,1,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
+    CDB.manipulate(inr,0,1,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
     upd();
     label->setText(tr("collected!"));
 }
 
-void magazyn::add()
+void warehouse::add()
 {
-    dodaje dod(view->model()->data(view->model()->index(k,3)).toString());
+    adding dod(view->model()->data(view->model()->index(k,3)).toString());
     dod.exec();
-    if(dod.ilosc==0)return;
-    CDB.manipuluj(inr,dod.ilosc,0,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
+    if(dod.new_amount==0)return;
+    CDB.manipulate(inr,dod.new_amount,0,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
     upd();
     label->setText(tr("added!"));
 }
 
-void magazyn::min_more()
+void warehouse::min_more()
 {
-    odejmij od(view->model()->data(view->model()->index(k,3)).toString());
+    collecting od(view->model()->data(view->model()->index(k,3)).toString());
     od.exec();
-    if(od.ilosc==0&&od.everything==0)return;
+    if(od.new_amount==0&&od.everything==0)return;
     if(od.everything)
-        CDB.manipuluj(inr,1,1,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
+        CDB.manipulate(inr,1,1,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
     else
-        CDB.manipuluj(inr,0,od.ilosc,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
+        CDB.manipulate(inr,0,od.new_amount,QDateTime::currentDateTime().toString("hh:mm:ss dd.MM.yyyy"));
     upd();
     label->setText(tr("collected!"));
 }
 
-void magazyn::CancelSearch()
+void warehouse::CancelSearch()
 {
     searchWord->setText("");
     search();
 }
 
-void magazyn::search()
+void warehouse::search()
 {
     model->setFilter( QString("nazwa LIKE '%%1%' "
                               "OR PLU LIKE '%%1%' "
@@ -237,7 +238,7 @@ void magazyn::search()
                               "OR grupa2 LIKE '%%1%' ").arg( searchWord->text() ));
 }
 
-void magazyn::upd()
+void warehouse::upd()
 {
     model->select();
     view->setModel(model);  
@@ -246,7 +247,7 @@ void magazyn::upd()
     model->submit();
 }
 
-void magazyn::slotLanguageChanged()
+void warehouse::slotLanguageChanged()
 {
     SetLanguage *sl;
     sl= new SetLanguage;
