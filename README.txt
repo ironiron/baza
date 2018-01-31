@@ -8,7 +8,7 @@ Based on SQLite.
 Language can be changed only by pressing L button.
 
 
-Shourtcuts:
+Shortcuts:
 N-add new item
 A-add more
 M-collect 1 item
