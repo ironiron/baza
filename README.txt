@@ -8,6 +8,7 @@ Based on SQLite.
 Language can be changed only by pressing L button.
 
 
+
 Shortcuts:
 N-add new item
 A-add more
@@ -16,6 +17,6 @@ C-colect more items
 L-language change
 
 
-Author: Rafał Mazurkiewicz
 
+Author: Rafał Mazurkiewicz
 Contact: raf.mazurkiewicz@op.pl
