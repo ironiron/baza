@@ -9,12 +9,9 @@ Language can be changed only by pressing L button.
 
 
 
-Shourtcuts:
-
+Shortcuts:
 N-add new item
-
-A-add
-
+A-add more
 M-collect 1 item
 C-colect more items
 L-language change
@@ -22,5 +19,4 @@ L-language change
 
 
 Author: Rafał Mazurkiewicz
-
 Contact: raf.mazurkiewicz@op.pl
