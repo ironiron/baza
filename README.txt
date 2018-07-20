@@ -8,14 +8,19 @@ Based on SQLite.
 Language can be changed only by pressing L button.
 
 
+
 Shourtcuts:
+
 N-add new item
+
 A-add
-M-minus
-C-colection
+
+M-collect 1 item
+C-colect more items
 L-language change
+
 
 
 Author: Rafał Mazurkiewicz
 
-Contact: klala3664@gmail.com
+Contact: raf.mazurkiewicz@op.pl
