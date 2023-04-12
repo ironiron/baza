@@ -2,6 +2,7 @@
 #define CONNECTDB_H
 #include <QMessageBox>
 #include <QSqlQuery>
+#include <QString>
 
 class connectDB : public QSqlDatabase
 {
@@ -11,6 +12,7 @@ class connectDB : public QSqlDatabase
 
 public:
      connectDB();
+     void set_db_name(QString db_name);
      void add_product(int id, QString PLU, QString quantiny, QString name, QString group1, QString group2
                  , QString place, QString condition, QString datein1, QString datein2,
                  QString datein3, QString dateout1,

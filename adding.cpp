@@ -3,6 +3,8 @@
 #include <QKeyEvent>
 #include <QShortcut>
 
+#include <QtGui/QIntValidator>
+
 adding::adding(QString produkt, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::adding)

@@ -2,6 +2,7 @@
 #include "ui_collecting.h"
 #include <QKeyEvent>
 #include <QShortcut>
+#include <QtGui/QIntValidator>
 
 collecting::collecting(QString product,QWidget *parent) :
     QDialog(parent),

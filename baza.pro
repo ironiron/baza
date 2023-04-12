@@ -20,6 +20,7 @@ TRANSLATIONS = baza_pl.ts \
 
 SOURCES += main.cpp\
     connectDB.cpp \
+    databasedialog.cpp \
     setlanguage.cpp \
     adding.cpp \
     collecting.cpp \
@@ -28,6 +29,7 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     connectDB.h \
+    databasedialog.h \
     version.h \
     setlanguage.h \
     adding.h \
@@ -36,6 +38,7 @@ HEADERS  += \
     warehouse.h
 
 FORMS    +=  \
+    databasedialog.ui \
     setlanguage.ui \
     adding.ui \
     collecting.ui \

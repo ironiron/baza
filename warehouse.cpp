@@ -12,6 +12,8 @@
 #include <QtWidgets>
 #include <QDateTime>
 
+#include "databasedialog.h"
+
 connectDB CDB;
 QSqlTableModel model;
 QModelIndexList indexes;
@@ -32,8 +34,15 @@ int k=0;
 int id;
 char lan=0;
 
+//TODO add edit button or sth, so not only number of products is modifiable
+
 warehouse::warehouse(const QString &tableName, QWidget *parent) : QWidget(parent)
 {
+    databasedialog DB_name;
+    DB_name.exec();
+
+
+    CDB.set_db_name(DB_name.db_name);
     model = new QSqlTableModel(this);
     model->setTable(tableName);
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -121,7 +130,7 @@ warehouse::warehouse(const QString &tableName, QWidget *parent) : QWidget(parent
     dates->addWidget(dates_in);
     dates->addWidget(dates_out);
 
-    label= new QLabel;
+    label= new QLabel;//for informing abour result of addidg removing items from database
     label->setText(" ");
     label->setStyleSheet("QLabel { color : red; }");
 

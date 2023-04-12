@@ -4,24 +4,33 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QApplication>
+#include <QString>
 
 
 
 
 connectDB::connectDB()
 {
+
+
+}
+
+void connectDB::set_db_name(QString db_name)
+{
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("path");
+    db.setDatabaseName(db_name);
     if (!db.open()) {
         QMessageBox::critical(0, qApp->tr("Cannot open database"),
             qApp->tr("Unable to establish a database connection.\n\n"
                      "Click Cancel to exit."), QMessageBox::Cancel);
         exit(1);
     }
-
+//TODO get rid of this dada
 QSqlQuery dada;
+//    QSqlQuery query;
 query=dada;
 
+    //TODO what if table already exists? add handling this case.
     query.exec("create table magazyn ("
                "id int primary key,"
                "PLU int, "
@@ -37,7 +46,6 @@ query=dada;
                "dateout1 date,"
                "dateout2 date, "
                "dateout3 date)");
-
 }
 
 void connectDB::add_product(int id,QString PLU, QString quantiny, QString name, QString group1,
